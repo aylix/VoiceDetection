@@ -1,0 +1,14 @@
+speechbrain
+pyannote-audio
+librosa
+transformers
+torch
+numpy
+scipy
+pydub
+opensmile-python
+langdetect
+matplotlib
+seaborn
+pyyaml
+reportlab
