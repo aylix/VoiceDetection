@@ -1,0 +1,13 @@
+# AI Detection Processor for Voice and Content Analysis
+
+This processor detects AI-generated voice and content using multiple detection models.
+
+Features:
+- AI voice detection using WaveFake, SpeechBrain, and Resemblyzer models
+- AI text detection using Ollama, RoBERTa, and other models
+- Hybrid analysis for complex scenarios (human content + AI voice)
+- Fully configurable thresholds and models
+- Professional modular design for scalability
+- Comprehensive logging and error handling
+
+The processor follows the project's standard architecture and integrates seamlessly with existing Kafka and S3 infrastructure.

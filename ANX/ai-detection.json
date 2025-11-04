@@ -1,0 +1,92 @@
+{
+    "name": "AI Detection Processor",
+    "description": "Advanced AI detection for voice and content analysis with hybrid scenario support",
+    "version": "1.0.0",
+    "input": {
+        "default": {
+            "kafka": {
+                "host": "10.11.9.32",
+                "port": 29092,
+                "topic": "audio-analysis"
+            },
+            "s3": {
+                "endpoint": "10.11.9.80:9000",
+                "access_key": "minio_access_key",
+                "secret_key": "minio_secret_key",
+                "bucket": "kafka-large-data",
+                "result_id": "audio_input"
+            }
+        }
+    },
+    "output": {
+        "default": {
+            "kafka": {
+                "host": "10.11.9.32", 
+                "port": 29092,
+                "topic": "ai-detection-results"
+            },
+            "s3": {
+                "endpoint": "10.11.9.80:9000",
+                "access_key": "minio_access_key",
+                "secret_key": "minio_secret_key",
+                "bucket": "kafka-large-data",
+                "result_id": "ai_detection_output"
+            }
+        }
+    },
+    "voice_detection": {
+        "enabled": true,
+        "model": "wavefake",
+        "threshold": 0.7,
+        "sample_rate": 16000,
+        "supported_models": ["wavefake", "speechbrain", "resemblyzer"]
+    },
+    "text_detection": {
+        "enabled": true,
+        "model": "ollama",
+        "threshold": 0.6,
+        "supported_models": ["ollama", "roberta", "openai-detector"]
+    },
+    "speech_to_text": {
+        "model": "whisper-base",
+        "language": "auto",
+        "supported_models": ["whisper-tiny", "whisper-base", "whisper-small", "whisper-medium", "whisper-large"]
+    },
+    "ollama": {
+        "uri": "http://ai01.server.trovent:11434",
+        "model": "llama3.2",
+        "timeout": 30
+    },
+    "input_fields": {
+        "audio_field": "audio_input",
+        "text_field": "text_content"
+    },
+    "output_configuration": {
+        "detailed_results": true,
+        "confidence_scores": true,
+        "include_features": true
+    },
+    "performance": {
+        "batch_size": 1,
+        "max_audio_length_seconds": 300,
+        "model_cache_enabled": true
+    },
+    "scenarios": {
+        "fully_ai_generated": {
+            "description": "Both voice and content are AI-generated",
+            "risk_level": "high"
+        },
+        "ai_voice_human_content": {
+            "description": "Human content with AI-generated voice (deepfake/cloning)",
+            "risk_level": "high"
+        },
+        "human_voice_ai_content": {
+            "description": "AI-generated content read by human voice",
+            "risk_level": "medium"
+        },
+        "likely_human": {
+            "description": "Both voice and content appear human-generated", 
+            "risk_level": "low"
+        }
+    }
+}
